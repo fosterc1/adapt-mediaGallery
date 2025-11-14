@@ -1,6 +1,6 @@
 {
   "name": "adapt-mediaGallery",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Extends the functionality of adapt-contrib-media by providing a gallery of videos",
   "main": "js/adapt-mediaGallery.js",
   "scripts": {
