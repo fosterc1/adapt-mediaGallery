@@ -97,6 +97,16 @@ class MediaGalleryView extends Media.view {
       this.mediaElement.pause();
     }
 
+    const $mediaElement = $(this.mediaElement);
+    
+    // Remove any inline width/height that MediaElement.js may have added
+    this.mediaElement.removeAttribute('width');
+    this.mediaElement.removeAttribute('height');
+    $mediaElement.css({
+      width: '',
+      height: ''
+    });
+
     // TODO: add support for Youtube/Vimeo sources
     this.mediaElement.setSrc(itemCfg._media.mp4);
     
@@ -107,7 +117,6 @@ class MediaGalleryView extends Media.view {
     
     this.mediaElement.load();
 
-    const $mediaElement = $(this.mediaElement);
     $mediaElement.find('track').remove();
     
     // Only add tracks if closed captions are enabled and tracks exist
