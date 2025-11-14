@@ -16,7 +16,7 @@
     "adapt-contrib-media": ">=5.1"
   },
   "license": "GPL-3.0",
-  "targetAttribute": "_component",
+  "targetAttribute": "_items",
   "assetFields": [
     "_items[]._graphic.src",
     "_items[]._media.mp4",
