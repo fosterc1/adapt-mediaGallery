@@ -33,9 +33,30 @@ class MediaGalleryView extends Media.view {
   onPlayerReady(...args) {
     super.onPlayerReady(...args);
 
+    // Set initial player size to match widget
+    this.resetPlayerSize();
+
     _.delay(() => {
       this.selectItem(0);
     }, 250);
+  }
+
+  resetPlayerSize() {
+    // Reset player dimensions to match the component widget
+    // This prevents the player from growing with each video switch
+    const widgetWidth = this.$('.component__widget').width();
+    this.$('.mejs__container').width(widgetWidth);
+    this.$('audio, video').width(widgetWidth);
+  }
+
+  onDeviceChanged() {
+    super.onDeviceChanged();
+    // Reset size when device changes
+    this.resetPlayerSize();
+  }
+
+  getItems() {
+    return this.model.get('_mediaGallery')._items;
   }
 
   checkCompletion() {
@@ -55,22 +76,22 @@ class MediaGalleryView extends Media.view {
   }
 
   areAllItemsVisited() {
-    return this.model.get('_items').every(itemCfg => itemCfg._isPlayed);
+    return this.getItems().every(itemCfg => itemCfg._isPlayed);
   }
 
   areAllItemsWatched() {
-    return this.model.get('_items').every(itemCfg => itemCfg._isWatched);
+    return this.getItems().every(itemCfg => itemCfg._isWatched);
   }
 
   markItemAsWatched() {
-    const itemCfg = this.model.get('_items')[this.selectedIndex];
+    const itemCfg = this.getItems()[this.selectedIndex];
     itemCfg._isWatched = true;
 
     this.checkCompletion();
   }
 
   markItemAsPlayed() {
-    const itemCfg = this.model.get('_items')[this.selectedIndex];
+    const itemCfg = this.getItems()[this.selectedIndex];
     itemCfg._isPlayed = true;
 
     this.checkCompletion();
@@ -78,7 +99,7 @@ class MediaGalleryView extends Media.view {
 
   selectItem(index) {
     // get the selected item configuration
-    const itemCfg = this.model.get('_items')[index];
+    const itemCfg = this.getItems()[index];
     // get the selected element
     const $selectedItem = this.$('.js-mediagallery-item').eq(index);
 
@@ -88,14 +109,40 @@ class MediaGalleryView extends Media.view {
 
     this.selectedIndex = index;
 
-    // TODO: add support for Youtube/Vimeo sources
-    this.mediaElement.setSrc(itemCfg._media.mp4);
-    this.mediaElement.load();
+    // Pause current video before switching
+    if (this.mediaElement && !this.mediaElement.paused) {
+      this.mediaElement.pause();
+    }
 
     const $mediaElement = $(this.mediaElement);
+
+    // TODO: add support for Youtube/Vimeo sources
+    this.mediaElement.setSrc(itemCfg._media.mp4);
+    
+    // Update poster image
+    if (itemCfg._media.poster) {
+      this.mediaElement.setAttribute('poster', itemCfg._media.poster);
+    }
+    
+    this.mediaElement.load();
+
+    // Reset player size after load to prevent growing
+    // Use defer to ensure MediaElement.js finishes its internal sizing first
+    _.defer(() => {
+      this.resetPlayerSize();
+    });
+
     $mediaElement.find('track').remove();
-    $mediaElement.append(Handlebars.partials.mediaTracks(itemCfg._media.cc));
-    this.mediaElement.player.rebuildtracks();
+    
+    // Only add tracks if closed captions are enabled and tracks exist
+    if (this.model.get('_useClosedCaptions') && itemCfg._media.cc) {
+      $mediaElement.append(Handlebars.partials.mediaTracks(itemCfg._media.cc));
+    }
+    
+    // Check if player is initialized before calling rebuildtracks
+    if (this.mediaElement.player && this.mediaElement.player.rebuildtracks) {
+      this.mediaElement.player.rebuildtracks();
+    }
 
     if (itemCfg._transcript) {
       this.model.set('_transcript', { ...this.model.get('_originalTranscript'), ...itemCfg._transcript });
@@ -120,9 +167,18 @@ class MediaGalleryView extends Media.view {
 
     if (this.selectedIndex !== index) {
       this.selectItem(index);
+      // Small delay to ensure media is loaded before playing
+      _.delay(() => {
+        this.playSelection();
+      }, 100);
+    } else {
+      // If clicking the same item, just toggle play/pause
+      if (this.mediaElement.paused) {
+        this.playSelection();
+      } else {
+        this.mediaElement.pause();
+      }
     }
-
-    this.playSelection();
   }
 
   onToggleInlineTranscript(event) {

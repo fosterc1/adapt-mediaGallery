@@ -1,6 +1,6 @@
 {
   "name": "adapt-mediaGallery",
-  "version": "1.0.0",
+  "version": "1.1.3",
   "framework": ">=5.8",
   "homepage": "https://github.com/cgkineo/adapt-mediaGallery",
   "issues": "https://github.com/cgkineo/adapt-mediaGallery/issues/ ",
@@ -16,15 +16,15 @@
     "adapt-contrib-media": ">=5.1"
   },
   "license": "GPL-3.0",
-  "targetAttribute": "_component",
+  "targetAttribute": "_mediaGallery",
   "assetFields": [
-    "_items[]._graphic.src",
-    "_items[]._media.mp4",
-    "_items[]._media.ogv",
-    "_items[]._media.webm",
-    "_items[]._media.mp3",
-    "_items[]._media.poster",
-    "_items[]._media.cc[].src",
+    "_mediaGallery._items[]._graphic.src",
+    "_mediaGallery._items[]._media.mp4",
+    "_mediaGallery._items[]._media.ogv",
+    "_mediaGallery._items[]._media.webm",
+    "_mediaGallery._items[]._media.mp3",
+    "_mediaGallery._items[]._media.poster",
+    "_mediaGallery._items[]._media.cc[].src",
     "_transcript.transcriptLink"
   ]
 }

@@ -17,7 +17,8 @@
         "_startLanguage": "en",
         "_showVolumeControl": true,
         "_startVolume": "80%",
-        "_items": [
+        "_mediaGallery": {
+            "_items": [
             {
                 "title": "Video 1",
                 "subtitle": "Subtitle",
@@ -64,7 +65,8 @@
                 }
 
             }
-        ],
+        ]
+        },
         "_comment": "_transcript = Global transcript",
         "_transcript": {
             "_setCompletionOnView": true,
