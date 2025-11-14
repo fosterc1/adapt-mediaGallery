@@ -1,0 +1,32 @@
+{
+  "name": "adapt-mediaGallery",
+  "version": "1.0.0",
+  "description": "Extends the functionality of adapt-contrib-media by providing a gallery of videos",
+  "main": "js/adapt-mediaGallery.js",
+  "scripts": {
+    "postversion": "cp package.json bower.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fosterc1/adapt-mediaGallery.git"
+  },
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/fosterc1/adapt-mediaGallery/issues"
+  },
+  "homepage": "https://github.com/fosterc1/adapt-mediaGallery#readme",
+  "framework": ">=5.8",
+  "adapt": {
+    "component": "mediagallery",
+    "targetAttribute": "_component",
+    "displayName": "Media Gallery",
+    "pluginDependencies": {
+      "adapt-contrib-media": ">=5.1"
+    }
+  }
+}
