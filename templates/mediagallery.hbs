@@ -7,7 +7,7 @@
 
     <div class="mediagallery__item-container">
 
-      {{#each _items}}
+      {{#each _mediaGallery._items}}
       <button id="{{../_id}}-{{@index}}-mediagallery-item" class="mediagallery__item js-mediagallery-item{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}" aria-label="{{ariaLabel}}">
 
         {{#if _graphic.src}}

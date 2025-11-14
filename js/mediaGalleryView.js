@@ -38,6 +38,10 @@ class MediaGalleryView extends Media.view {
     }, 250);
   }
 
+  getItems() {
+    return this.model.get('_mediaGallery')._items;
+  }
+
   checkCompletion() {
     if (this.model.get('_setCompletionOn') === 'allPlayed' && this.areAllItemsVisited()) {
       this.setCompletionStatus();
@@ -55,22 +59,22 @@ class MediaGalleryView extends Media.view {
   }
 
   areAllItemsVisited() {
-    return this.model.get('_items').every(itemCfg => itemCfg._isPlayed);
+    return this.getItems().every(itemCfg => itemCfg._isPlayed);
   }
 
   areAllItemsWatched() {
-    return this.model.get('_items').every(itemCfg => itemCfg._isWatched);
+    return this.getItems().every(itemCfg => itemCfg._isWatched);
   }
 
   markItemAsWatched() {
-    const itemCfg = this.model.get('_items')[this.selectedIndex];
+    const itemCfg = this.getItems()[this.selectedIndex];
     itemCfg._isWatched = true;
 
     this.checkCompletion();
   }
 
   markItemAsPlayed() {
-    const itemCfg = this.model.get('_items')[this.selectedIndex];
+    const itemCfg = this.getItems()[this.selectedIndex];
     itemCfg._isPlayed = true;
 
     this.checkCompletion();
@@ -78,7 +82,7 @@ class MediaGalleryView extends Media.view {
 
   selectItem(index) {
     // get the selected item configuration
-    const itemCfg = this.model.get('_items')[index];
+    const itemCfg = this.getItems()[index];
     // get the selected element
     const $selectedItem = this.$('.js-mediagallery-item').eq(index);
 
