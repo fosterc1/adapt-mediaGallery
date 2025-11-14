@@ -92,13 +92,28 @@ class MediaGalleryView extends Media.view {
 
     this.selectedIndex = index;
 
+    // Pause current video before switching
+    if (this.mediaElement && !this.mediaElement.paused) {
+      this.mediaElement.pause();
+    }
+
     // TODO: add support for Youtube/Vimeo sources
     this.mediaElement.setSrc(itemCfg._media.mp4);
+    
+    // Update poster image
+    if (itemCfg._media.poster) {
+      this.mediaElement.setAttribute('poster', itemCfg._media.poster);
+    }
+    
     this.mediaElement.load();
 
     const $mediaElement = $(this.mediaElement);
     $mediaElement.find('track').remove();
-    $mediaElement.append(Handlebars.partials.mediaTracks(itemCfg._media.cc));
+    
+    // Only add tracks if closed captions are enabled and tracks exist
+    if (this.model.get('_useClosedCaptions') && itemCfg._media.cc) {
+      $mediaElement.append(Handlebars.partials.mediaTracks(itemCfg._media.cc));
+    }
     
     // Check if player is initialized before calling rebuildtracks
     if (this.mediaElement.player && this.mediaElement.player.rebuildtracks) {
@@ -128,9 +143,18 @@ class MediaGalleryView extends Media.view {
 
     if (this.selectedIndex !== index) {
       this.selectItem(index);
+      // Small delay to ensure media is loaded before playing
+      _.delay(() => {
+        this.playSelection();
+      }, 100);
+    } else {
+      // If clicking the same item, just toggle play/pause
+      if (this.mediaElement.paused) {
+        this.playSelection();
+      } else {
+        this.mediaElement.pause();
+      }
     }
-
-    this.playSelection();
   }
 
   onToggleInlineTranscript(event) {
