@@ -33,9 +33,26 @@ class MediaGalleryView extends Media.view {
   onPlayerReady(...args) {
     super.onPlayerReady(...args);
 
+    // Set initial player size to match widget
+    this.resetPlayerSize();
+
     _.delay(() => {
       this.selectItem(0);
     }, 250);
+  }
+
+  resetPlayerSize() {
+    // Reset player dimensions to match the component widget
+    // This prevents the player from growing with each video switch
+    const widgetWidth = this.$('.component__widget').width();
+    this.$('.mejs__container').width(widgetWidth);
+    this.$('audio, video').width(widgetWidth);
+  }
+
+  onDeviceChanged() {
+    super.onDeviceChanged();
+    // Reset size when device changes
+    this.resetPlayerSize();
   }
 
   getItems() {
@@ -98,14 +115,6 @@ class MediaGalleryView extends Media.view {
     }
 
     const $mediaElement = $(this.mediaElement);
-    
-    // Remove any inline width/height that MediaElement.js may have added
-    this.mediaElement.removeAttribute('width');
-    this.mediaElement.removeAttribute('height');
-    $mediaElement.css({
-      width: '',
-      height: ''
-    });
 
     // TODO: add support for Youtube/Vimeo sources
     this.mediaElement.setSrc(itemCfg._media.mp4);
@@ -116,6 +125,12 @@ class MediaGalleryView extends Media.view {
     }
     
     this.mediaElement.load();
+
+    // Reset player size after load to prevent growing
+    // Use defer to ensure MediaElement.js finishes its internal sizing first
+    _.defer(() => {
+      this.resetPlayerSize();
+    });
 
     $mediaElement.find('track').remove();
     
