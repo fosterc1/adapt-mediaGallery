@@ -1,0 +1,370 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "$ref": "http://localhost/plugins/content/component/model.schema",
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "Media Gallery. Select a video from the list.",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    }
+  },
+  "properties": {
+    "_supportedLayout": {
+      "type": "string",
+      "required": true,
+      "enum": ["full-width", "half-width", "both"],
+      "default": "both",
+      "editorOnly": true
+    },
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text",
+      "translatable": true
+    },
+    "_setCompletionOn": {
+      "type": "string",
+      "required": true,
+      "enum": ["inview", "play", "allPlayed", "ended", "allEnded"],
+      "default": "allPlayed",
+      "title": "Set completion on",
+      "inputType": {
+        "type": "Select",
+        "options": [
+          {"val": "inview", "label": "Inview"},
+          {"val": "play", "label": "Play"},
+          {"val": "allPlayed", "label": "All played"},
+          {"val": "ended", "label": "Ended"},
+          {"val": "allEnded", "label": "All ended"}
+        ]
+      },
+      "validators": ["required"],
+      "help": "Set to 'play' to have the component mark as completed when any media element is played; set to 'allPlayed' when all media elements are played; set to 'ended' when any media element has ended; set to 'allEnded' when all media elements have ended; set to 'inview' when the component comes into view."
+    },
+    "_useClosedCaptions": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "title": "Use closed captions",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If set to 'true', closed captions will be used."
+    },
+    "_allowFullScreen": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "title": "Allow full screen",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If set to 'true', the option to view the media in full screen will be enabled."
+    },
+    "_playsinline": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "title": "Play inline",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If set to 'true', videos will play inline on iOS devices (instead of full screen)."
+    },
+    "_startLanguage": {
+      "type": "string",
+      "required": false,
+      "default": "en",
+      "title": "Start language",
+      "inputType": "Text",
+      "validators": [],
+      "help": "The language code for the default closed captions language (e.g. 'en' for English)."
+    },
+    "_showVolumeControl": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "title": "Show volume control",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If set to 'true', the volume control will be shown."
+    },
+    "_startVolume": {
+      "type": "string",
+      "required": false,
+      "default": "80%",
+      "title": "Start volume",
+      "inputType": "Text",
+      "validators": [],
+      "help": "The initial volume level. Can be a percentage (e.g. '80%') or a decimal (e.g. '0.8')."
+    },
+    "_items": {
+      "type": "array",
+      "required": true,
+      "title": "Media items",
+      "items": {
+        "type": "object",
+        "required": true,
+        "properties": {
+          "title": {
+            "type": "string",
+            "required": true,
+            "default": "",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": "Title of the item that appears beneath the item image",
+            "translatable": true
+          },
+          "subtitle": {
+            "type": "string",
+            "required": false,
+            "default": "",
+            "inputType": "Text",
+            "validators": [],
+            "help": "Subtitle of the item that appears beneath the item title",
+            "translatable": true
+          },
+          "ariaLabel": {
+            "type": "string",
+            "required": false,
+            "default": "",
+            "inputType": "Text",
+            "validators": [],
+            "help": "This text is associated with the item button. It renders as part of the aria label to give screen readers more information.",
+            "translatable": true
+          },
+          "_graphic": {
+            "type": "object",
+            "required": true,
+            "title": "Thumbnail graphic",
+            "properties": {
+              "src": {
+                "type": "string",
+                "required": true,
+                "default": "",
+                "inputType": "Asset:image",
+                "validators": ["required"],
+                "help": "The thumbnail image for this item"
+              },
+              "alt": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Text",
+                "validators": [],
+                "help": "Alternative text for the thumbnail image",
+                "translatable": true
+              }
+            }
+          },
+          "_media": {
+            "type": "object",
+            "required": true,
+            "title": "Media",
+            "properties": {
+              "mp4": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:video",
+                "validators": [],
+                "help": "The MP4 video file"
+              },
+              "ogv": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:video",
+                "validators": [],
+                "help": "The OGV video file"
+              },
+              "webm": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:video",
+                "validators": [],
+                "help": "The WebM video file"
+              },
+              "mp3": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:audio",
+                "validators": [],
+                "help": "The MP3 audio file"
+              },
+              "poster": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:image",
+                "validators": [],
+                "help": "The poster image for the video"
+              },
+              "cc": {
+                "type": "array",
+                "required": false,
+                "title": "Closed captions",
+                "items": {
+                  "type": "object",
+                  "required": false,
+                  "properties": {
+                    "srclang": {
+                      "type": "string",
+                      "required": true,
+                      "default": "en",
+                      "inputType": "Text",
+                      "validators": ["required"],
+                      "help": "The language code for this caption track (e.g. 'en' for English)"
+                    },
+                    "src": {
+                      "type": "string",
+                      "required": true,
+                      "default": "",
+                      "inputType": "Asset:other",
+                      "validators": ["required"],
+                      "help": "The VTT caption file"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "_transcript": {
+            "type": "object",
+            "required": false,
+            "title": "Item transcript",
+            "properties": {
+              "_inlineTranscript": {
+                "type": "boolean",
+                "required": false,
+                "default": false,
+                "title": "Enable inline transcript",
+                "inputType": "Checkbox",
+                "validators": [],
+                "help": "Set to 'true' to enable an inline transcript for this specific item"
+              },
+              "inlineTranscriptBody": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "TextArea",
+                "validators": [],
+                "help": "The transcript text for this item",
+                "translatable": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "_transcript": {
+      "type": "object",
+      "required": false,
+      "title": "Global transcript",
+      "properties": {
+        "_setCompletionOnView": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "title": "Set completion on view",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "If set to 'true', the transcript can trigger completion"
+        },
+        "_inlineTranscript": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "title": "Enable inline transcript",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "If set to 'true', an inline transcript will be shown"
+        },
+        "_externalTranscript": {
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "title": "Enable external transcript",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "If set to 'true', a link to an external transcript will be shown"
+        },
+        "inlineTranscriptButton": {
+          "type": "string",
+          "required": false,
+          "default": "Show transcript",
+          "inputType": "Text",
+          "validators": [],
+          "help": "The button text for showing the inline transcript",
+          "translatable": true
+        },
+        "inlineTranscriptCloseButton": {
+          "type": "string",
+          "required": false,
+          "default": "Hide transcript",
+          "inputType": "Text",
+          "validators": [],
+          "help": "The button text for hiding the inline transcript",
+          "translatable": true
+        },
+        "inlineTranscriptBody": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "inputType": "TextArea",
+          "validators": [],
+          "help": "The global transcript text",
+          "translatable": true
+        },
+        "transcriptLinkButton": {
+          "type": "string",
+          "required": false,
+          "default": "Transcript",
+          "inputType": "Text",
+          "validators": [],
+          "help": "The button text for the external transcript link",
+          "translatable": true
+        },
+        "transcriptLink": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "inputType": "Asset:other",
+          "validators": [],
+          "help": "The link to the external transcript file (e.g. PDF)"
+        }
+      }
+    },
+    "_playerOptions": {
+      "type": "object",
+      "required": false,
+      "title": "Player options",
+      "properties": {
+        "toggleCaptionsButtonWhenOnlyOne": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "title": "Show toggle captions button when only one language",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "If set to 'true', the captions toggle button will be shown even when only one caption track is available"
+        },
+        "features": {
+          "type": "array",
+          "required": false,
+          "default": [],
+          "title": "Player features",
+          "inputType": "List",
+          "help": "Add custom features to the media player (advanced)"
+        }
+      }
+    }
+  }
+}
