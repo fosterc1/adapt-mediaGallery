@@ -15,5 +15,16 @@
   "pluginDependencies": {
     "adapt-contrib-media": ">=5.1"
   },
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "targetAttribute": "_component",
+  "assetFields": [
+    "_items[]._graphic.src",
+    "_items[]._media.mp4",
+    "_items[]._media.ogv",
+    "_items[]._media.webm",
+    "_items[]._media.mp3",
+    "_items[]._media.poster",
+    "_items[]._media.cc[].src",
+    "_transcript.transcriptLink"
+  ]
 }
