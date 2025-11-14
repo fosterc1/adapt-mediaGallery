@@ -99,7 +99,11 @@ class MediaGalleryView extends Media.view {
     const $mediaElement = $(this.mediaElement);
     $mediaElement.find('track').remove();
     $mediaElement.append(Handlebars.partials.mediaTracks(itemCfg._media.cc));
-    this.mediaElement.player.rebuildtracks();
+    
+    // Check if player is initialized before calling rebuildtracks
+    if (this.mediaElement.player && this.mediaElement.player.rebuildtracks) {
+      this.mediaElement.player.rebuildtracks();
+    }
 
     if (itemCfg._transcript) {
       this.model.set('_transcript', { ...this.model.get('_originalTranscript'), ...itemCfg._transcript });
